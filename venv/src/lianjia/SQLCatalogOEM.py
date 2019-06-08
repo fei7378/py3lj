@@ -27,23 +27,12 @@ class OrmTest(object):
         # print(timeStr)
         new_obj = News(
             name=list[1],
-
             SonUrl=list[2],
-
             putTime=str(timeStr)
         )
         self.session.add(new_obj)
         self.session.commit()
         return new_obj
-
-
-def main():
-    obj = OrmTest()
-    rest = obj.add_one(555)
-    print(rest.id)
-
-if __name__ == '__main__':
-    main()
 
 
 

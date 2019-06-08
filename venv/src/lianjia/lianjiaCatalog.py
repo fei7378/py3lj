@@ -17,6 +17,7 @@ def parserList(html):
     # print(type(soup))
     all_tag = soup.find(name='ul',attrs={'class':'resblock-list-wrapper'})
     # 获取的信息遍历房屋
+
     allhouser = []
     for tag in all_tag.children:
         if isinstance(tag, bs4.element.Tag):
@@ -57,16 +58,18 @@ def main():
         url = "https://cd.fang.lianjia.com/loupan/pg{}/".format(i)
         # 获取url的html
         html = GetHtml.getHTMLTest(url)
+
+
         # 将html数据放入uinfo
         allhouser = parserList(html)
         # print(allhouser)
         for houser in allhouser:
-            # print(len(houser[8]))
+
             print(houser)
             # # 集中写入数据库
-            obj = OrmTest()
-            rest = obj.add_one(houser)
-            print(rest.id)
+            # obj = OrmTest()
+            # rest = obj.add_one(houser)
+            # print(rest.id)
         print(time.perf_counter() - timeStart)
 
 
