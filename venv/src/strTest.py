@@ -16,6 +16,8 @@ print("{2} 测试 {0} 测试{1}".format("一号","二号","三号"))
 
 print("{0:b},{0:c},{0:d},{0:o},{0:x},{0:X}".format(425))
 
+
+print( "ddd"+ "    ddd")
 '''
 str.lower() str.upper() 返回字符串的全部大写或全部小写
 str.split(sep=None)根据sep分割

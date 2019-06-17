@@ -20,19 +20,20 @@ class OrmTest(object):
     def __init__(self):
         self.session = Session()
 
-    def add_one(self,list):
-        print("id{}".format(id))
-        # 详情list
-        timeStr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        # print(timeStr)
-        new_obj = News(
-            name=list[1],
-            SonUrl=list[2],
-            putTime=str(timeStr)
-        )
-        self.session.add(new_obj)
-        self.session.commit()
-        return new_obj
+    def test_search(self):
+        items = []
+        for instance in self.session.query(News):
+            print(instance.SonUrl, instance.name)
+            items.append(instance.name)
+            items.append(instance.SonUrl)
+        return items
+
+if __name__ == '__main__':
+    obj = OrmTest()
+    items = obj.test_search()
+    print(items)
+
+
 
 
 

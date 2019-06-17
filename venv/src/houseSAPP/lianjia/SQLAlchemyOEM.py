@@ -40,6 +40,9 @@ class News(Base):
     area = Column(String(255))
     putTime = Column(String(255))
 
+    longitude = Column(String(255))
+    latitude = Column(String(255))
+
 class OrmTest(object):
 
     def __init__(self):
@@ -91,14 +94,43 @@ class OrmTest(object):
         self.session.commit()
         return new_obj
 
+    def selectBySonUrl(self,SonUrl):
+        result = self.session.query(News).filter(News.SonUrl == SonUrl).all()
+        return result
+
+    def selectAll(self):
+        result = self.session.query(News).filter(News.longitude.is_(None)).all()
+        return result
+
+    def update_one(self,id,longitude,latitude):
+        # 改
+        self.session.query(News).filter(News.id == id).update({"longitude": longitude,"latitude":latitude})
+        self.session.commit()
+
+
+
 
 def main():
     obj = OrmTest()
-    rest = obj.add_one(555)
-    print(rest.id)
+    # rest = obj.add_one(555)
+    # print(rest.id)
+    result = obj.selectBySonUrl("hdtfcbaaype")
+    # print(result.unitPrice, result.name)
+    for instance in result:
+        print(instance.unitPrice, instance.name)
+
+
 
 if __name__ == '__main__':
-    main()
+    # main()
+    obj = OrmTest()
+    # result = obj.selectBySonUrl("hdtfcbype")
+    # print(len(result))
+    result = obj.selectAll()
+    for r in result:
+        print(r.longitude,end=" ")
+        print(r.name)
+
 
 
 

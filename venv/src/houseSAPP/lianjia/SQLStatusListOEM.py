@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy.orm import sessionmaker
+import time
+# default
+engine = create_engine('mysql+pymysql://root:Qwer1234@localhost:3306/lianjia?charset=utf8')
+Base = declarative_base()
+Session = sessionmaker(bind=engine)
+class StatusListBean(Base):
+    __tablename__='lianjia_statusList'
+    id = Column(Integer,primary_key=True)
+    SonUrl = Column(String(255))
+    name = Column(String(255))
+    putTime = Column(String(255))
+
+
+    status = Column(Enum('10','20','30','40','50'))
+    renovation = Column(Enum('10','20','30'))
+    build_type = Column(Enum('10','20','30','40','50'))
+    sale = Column(Enum('10','20','30','40'  ))
+
+class StatusList(object):
+
+    def __init__(self):
+        self.session = Session()
+
+    def add_one(self,list):
+        print("id{}".format(id))
+        # 详情list
+        timeStr = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # print(timeStr)
+        #  `status` enum('10','20','30','40','50') NOT NULL COMMENT '楼盘状态:10=在售,20=代售,30=商办,40=不限购,50=即将预售',
+        #   `renovation` enum('10','20','30') NOT NULL COMMENT '装修标签:10=清水房,20=简装,30=精装',
+        #   `build_type` enum('10','20','30','40','50') NOT NULL COMMENT '楼盘类型:10=住宅,20=公寓,30=写字楼,40=商铺,50=别墅',
+        #   `sale` enum('10','20','30','40') NOT NULL COMMENT '售卖:10=待售,20=即将预售,30=在售,40=已清盘',
+        new_obj = StatusListBean(
+            name=list[1],
+            SonUrl=list[2],
+            putTime=str(timeStr),
+            status='10', #楼盘状态:10=在售,20=代售,30=商办,40=不限购,50=即将预售'
+            renovation='10', #装修标签:10=清水房,20=简装,30=精装'
+            build_type='40', #楼盘类型:10=住宅,20=公寓,30=写字楼,40=商铺,50=别墅',
+            sale='40'  #售卖:10=待售,20=即将预售,30=在售,40=已清盘',
+
+        )
+        self.session.add(new_obj)
+        self.session.commit()
+        return new_obj
+
+    def test_search(self):
+        result = self.session.query(StatusListBean)
+        return result
+        # print(type(result))
+        # for instance in result:
+        #     print(instance.SonUrl, instance.name)
+
+if __name__ == '__main__':
+    obj = StatusList()
+    result = obj.test_search()
+    for instance in result:
+        print(instance.SonUrl, instance.name)
+
